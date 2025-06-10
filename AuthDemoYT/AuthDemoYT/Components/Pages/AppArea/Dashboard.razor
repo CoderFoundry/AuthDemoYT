@@ -1,0 +1,63 @@
+﻿@page "/dashboard"
+
+@inject IDashboardService DashboardService
+
+<div class="container mt-3">
+    <h3>Rocket Dashboard</h3>
+    <div class="row">
+        <div class="col-md-3">
+            <DashboardCard Title="Total Users" Value="@DashboardData.TotalUsers" IconClass="bi bi-people" CardClass="text-dark bg-primary-subtle" />
+        </div>
+        <div class="col-md-3">
+            <DashboardCard Title="Active Sesstions" Value="@DashboardData.ActiveSessions" IconClass="bi bi-activity" CardClass="text-dark bg-sucess-subtle" />
+        </div>
+        <div class="col-md-3">
+            <DashboardCard Title="New Signups" Value="@DashboardData.NewSignups" IconClass="bi bi-person-plus" CardClass="text-dark bg-warning-subtle" />
+        </div>
+        <div class="col-md-3">
+            <DashboardCard Title="Errors" Value="@DashboardData.ErrorCount" IconClass="bi bi-exclamation-triangle" CardClass="text-light bg-danger" />
+        </div>
+    </div>
+
+    <h4>Recent Orders</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Order #</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in DashboardData.RecentOrders)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.CustomerName</td>
+                    <td>@order.Date.ToShortDateString()</td>
+                    <td>@order.Total.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+@code {
+    // KPI values
+    private int TotalUsers;
+    private int ActiveSessions;
+    private int NewSignups;
+    private int ErrorCount;
+
+    // Sample recent orders
+    private DashboardData DashboardData = new DashboardData();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        DashboardData = await DashboardService.GetDashboardDataAsync();
+    }
+
+}

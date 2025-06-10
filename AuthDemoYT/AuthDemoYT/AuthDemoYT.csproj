@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-AuthDemoYT-347e40b0-9512-44f0-b549-9e0c5b5c765b</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\images\._CFRocketBGNoBG.png" />
+    <Content Remove="wwwroot\images\._RocketDesktopBG-1200.png" />
+    <Content Remove="wwwroot\images\._RocketDesktopBG-576.png" />
+    <Content Remove="wwwroot\images\._RocketDesktopBG-768.png" />
+    <Content Remove="wwwroot\images\._RocketDesktopBG-992.png" />
+    <Content Remove="wwwroot\images\._RocketDesktopBG-992x430.png" />
+    <Content Remove="wwwroot\images\._RocketDesktopBG.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AuthDemoYT.Client\AuthDemoYT.Client.csproj" />
+    <PackageReference Include="Bogus" Version="35.6.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
+    <PackageReference Include="SendGrid" Version="9.29.3" />
+  </ItemGroup>
+
+</Project>

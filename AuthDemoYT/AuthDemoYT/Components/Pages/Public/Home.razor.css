@@ -1,0 +1,48 @@
+﻿.bgStyle {
+    background: url(/images/RocketDesktopBG.png) no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+.rocket {
+    height: 100%;   
+    width: 100%;
+    min-height: 300px;
+    background: url(/images/RocketDesktopBG-768.png) no-repeat;    
+    background-position: center right;
+    
+}
+
+@media (min-width: 768px) {
+    .rocket {
+        background: url(/images/RocketDesktopBG-992.png) no-repeat;
+        background-position: bottom right;
+    }
+}
+
+    @media (min-width: 768px) and (orientation: landscape) 
+    {
+
+        .rocket {
+            background: url(/images/RocketDesktopBG-992x430.png) no-repeat;
+            min-height: 400px;
+            background-position: bottom right;
+        }
+    }
+    
+    
+    @media (min-width: 992px) {
+        .rocket {
+            background: url(/images/RocketDesktopBG-1200.png) no-repeat;
+            background-position: bottom right;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .rocket {
+            background: url(/images/CFRocketBGNoBG.png) no-repeat;
+            background-position: bottom center; 
+            background-size: cover;
+        }
+    }
