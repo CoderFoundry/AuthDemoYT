@@ -1,0 +1,63 @@
+﻿@page "/contact"
+@layout MainLayout
+
+@using System.ComponentModel.DataAnnotations
+@rendermode InteractiveServer
+<div class="h-100 bgStyle">
+    <div class="rocket h-100 d-flex flex-column justify-content-center p-3">
+        <div class="border border-1 border-primary-subtle shadow-lg p-3 rounded-4 container bg-light">
+            <h1>Contact Us</h1>
+            <EditForm Model="@formModel" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <InputText id="name" class="form-control" @bind-Value="formModel.Name" />
+                    <ValidationMessage For="@(() => formModel.Name)" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <InputText id="email" type="email" class="form-control" @bind-Value="formModel.Email" />
+                    <ValidationMessage For="@(() => formModel.Email)" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <InputTextArea id="message" class="form-control" @bind-Value="formModel.Message" Rows="5" />
+                    <ValidationMessage For="@(() => formModel.Message)" />
+                </div>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </div>
+                @if (isSubmitted)
+                {
+                    <div class="alert alert-success mt-3">Thank you for your message!</div>
+                }
+            </EditForm>
+        </div>
+    </div>
+</div>
+@code {
+    private ContactFormModel formModel = new ContactFormModel();
+    private bool isSubmitted = false;
+
+    private void HandleValidSubmit()
+    {
+        // Demo: No actual submission
+        isSubmitted = true;
+    }
+
+    public class ContactFormModel
+    {
+        [Required(ErrorMessage = "Name is required")]
+        public string? Name { get; set; }
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string? Email { get; set; }
+
+        [Required(ErrorMessage = "Please enter a message")]
+        public string? Message { get; set; }
+    }
+}
