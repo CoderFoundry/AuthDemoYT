@@ -6,7 +6,9 @@ namespace AuthDemoYT.Data
 {
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
     {
-        public DbSet<ImageUpload> Images { get; set; }       
+        public DbSet<ImageUpload> Images { get; set; }   
+        
+        public DbSet<Order> Orders { get; set; }
 
     }
 }

@@ -3,6 +3,7 @@ using System;
 using AuthDemoYT.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuthDemoYT.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250611190700_002-addorders")]
+    partial class _002addorders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,7 +132,7 @@ namespace AuthDemoYT.Data.Migrations
                     b.Property<string>("CustomerName")
                         .HasColumnType("text");
 
-                    b.Property<DateTimeOffset>("Date")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("Total")

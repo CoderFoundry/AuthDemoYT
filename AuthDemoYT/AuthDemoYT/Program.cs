@@ -59,6 +59,7 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>()
     .AddSignInManager()
@@ -70,6 +71,11 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    await DataUtility.ManageDataAsync(scope.ServiceProvider);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

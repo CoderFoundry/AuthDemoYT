@@ -1,22 +1,20 @@
-﻿using AuthDemoYT.Models;
+﻿using AuthDemoYT.Data;
+using AuthDemoYT.Models;
 using AuthDemoYT.Services.Interfaces;
 using Bogus;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthDemoYT.Services
 {
-    public class DashboardService : IDashboardService
+    public class DashboardService(IDbContextFactory<ApplicationDbContext> contextFactory) : IDashboardService
     {
-        public Task<DashboardData> GetDashboardDataAsync()
+        public async Task<DashboardData> GetDashboardDataAsync()
         {
-            // Setup Faker for Order
-            var orderFaker = new Faker<Order>()
-                .RuleFor(o => o.Id, f => f.IndexFaker + 1)
-                .RuleFor(o => o.CustomerName, f => f.Person.FullName)
-                .RuleFor(o => o.Date, f => f.Date.Past(1))
-                .RuleFor(o => o.Total, f => f.Finance.Amount(10, 500));
-
-            // Generate 500 mock orders
-            var orders = orderFaker.Generate(10);
+            await using var dbContext = contextFactory.CreateDbContext();
+            var orders = await dbContext.Orders
+                .OrderByDescending(o => o.Date)
+                .Take(10)
+                .ToListAsync();
 
             // Build dashboard data
             var data = new DashboardData
@@ -28,7 +26,7 @@ namespace AuthDemoYT.Services
                 RecentOrders = orders
             };
 
-            return Task.FromResult(data);
+            return data;
         }
     }
 

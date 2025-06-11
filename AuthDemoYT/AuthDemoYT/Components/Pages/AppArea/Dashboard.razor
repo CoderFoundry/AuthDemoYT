@@ -1,4 +1,5 @@
 ﻿@page "/dashboard"
+@using Microsoft.FluentUI
 
 @inject IDashboardService DashboardService
 
@@ -9,7 +10,7 @@
             <DashboardCard Title="Total Users" Value="@DashboardData.TotalUsers" IconClass="bi bi-people" CardClass="text-dark bg-primary-subtle" />
         </div>
         <div class="col-md-3">
-            <DashboardCard Title="Active Sesstions" Value="@DashboardData.ActiveSessions" IconClass="bi bi-activity" CardClass="text-dark bg-sucess-subtle" />
+            <DashboardCard Title="Active Sesstions" Value="@DashboardData.ActiveSessions" IconClass="bi bi-activity" CardClass="text-dark bg-success-subtle" />
         </div>
         <div class="col-md-3">
             <DashboardCard Title="New Signups" Value="@DashboardData.NewSignups" IconClass="bi bi-person-plus" CardClass="text-dark bg-warning-subtle" />
@@ -35,28 +36,24 @@
                 <tr>
                     <td>@order.Id</td>
                     <td>@order.CustomerName</td>
-                    <td>@order.Date.ToShortDateString()</td>
+                    <td>@order.Date.LocalDateTime.ToShortDateString()</td>
                     <td>@order.Total.ToString("C")</td>
                 </tr>
             }
         </tbody>
     </table>
-
 </div>
 
+
+
 @code {
-    // KPI values
-    private int TotalUsers;
-    private int ActiveSessions;
-    private int NewSignups;
-    private int ErrorCount;
+
 
     // Sample recent orders
     private DashboardData DashboardData = new DashboardData();
 
     protected override async Task OnInitializedAsync()
     {
-
         DashboardData = await DashboardService.GetDashboardDataAsync();
     }
 
