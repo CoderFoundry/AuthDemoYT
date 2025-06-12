@@ -1,9 +1,9 @@
 ﻿@page "/rocketadmin"
 @using Microsoft.FluentUI.AspNetCore.Components
 @rendermode InteractiveServer
-
-
 @inject IDashboardService DashboardService
+
+@attribute [Authorize(Roles = "Admin")]
 
 <h3 class="mt-3">Order Administration</h3>
 
