@@ -1,0 +1,54 @@
+﻿@page "/userinfo"
+@rendermode InteractiveServer
+
+
+<h1>User Info</h1>
+
+<AuthorizeView>
+    <Authorized>
+        <h2>Hello, @context.User.Identity?.Name!</h2>
+        <h3>My Claims</h3>
+        <hr>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr><th>Type</th><th>Value</th></tr>
+            </thead>
+            <tbody>
+        @foreach (var claim in context.User.Claims)
+        {
+                var shortType = claim.Type.Contains('/')
+                ? claim.Type.Split('/').Last()
+                : claim.Type;
+
+                if (shortType=="role")
+                    {
+                        <tr><td class="fw-bold">@shortType</td><td class="text-danger fw-bold">@claim.Value</td></tr>
+                    }
+                    else
+                    {
+                        <tr><td class="fw-bold">@shortType</td><td>@claim.Value</td></tr>
+                    }
+               
+        }
+            </tbody>
+        </table>
+        <p><button class="btn btn-primary" @onclick="HandleClick">Authorized Only Button</button></p>
+    </Authorized>
+    <NotAuthorized>
+        <p>You're not authorized.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@if (ShowMessage)
+{
+    <p>The auth user clicked the button!</p>
+}
+
+@code {
+    private bool ShowMessage = false;
+
+    private void HandleClick()
+    {
+        ShowMessage = true;
+    }
+}

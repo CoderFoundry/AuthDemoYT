@@ -150,7 +150,7 @@ namespace AuthDemoYT.Data
                 var orderFaker = new Faker<Order>()
                     .RuleFor(o => o.Id, f => f.IndexFaker + 1)
                     .RuleFor(o => o.CustomerName, f => f.Person.FullName)
-                    .RuleFor(o => o.Date, f => f.Date.PastOffset(1).ToUniversalTime())
+                    .RuleFor(o => o.Date, f => f.Date.Past(1))
                     .RuleFor(o => o.Total, f => f.Finance.Amount(10, 500));
 
                 // Generate 100 mock orders

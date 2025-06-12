@@ -1,10 +1,11 @@
 ﻿@page "/rocketadmin"
 @using Microsoft.FluentUI.AspNetCore.Components
 @rendermode InteractiveServer
-@attribute [Authorize(Roles = "Admin")]
+
+
 @inject IDashboardService DashboardService
 
-<h2>Order Administration</h2>
+<h3 class="mt-3">Order Administration</h3>
 
 <FluentButton Appearance="Appearance.Accent" Class="mb-3" OnClick="AddOrder">
     + Add Order
@@ -17,7 +18,7 @@
                 Virtualize="false">
     <PropertyColumn Property="@(o => o.Id)" Sortable="true" Align="Align.Start" Tooltip="true" />
     <PropertyColumn Property="@(o => o.CustomerName)" Sortable="true" Align="Align.Start" Tooltip="true" Title="Customer Name" />
-    <PropertyColumn Property="@(o => o.Date.LocalDateTime)"
+    <PropertyColumn Property="@(o => o.Date.ToString())"
                     Sortable="true"
                     Align="Align.Start"
                     Tooltip="true"

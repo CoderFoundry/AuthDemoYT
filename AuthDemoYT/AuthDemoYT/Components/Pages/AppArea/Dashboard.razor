@@ -31,7 +31,7 @@
                 Virtualize="false">
     <PropertyColumn Property="@(o => o.Id)" Sortable="true" Align="Align.Start" Tooltip="true" />
     <PropertyColumn Property="@(o => o.CustomerName)" Sortable="true" Align="Align.Start" Tooltip="true" Title="Customer Name" />
-    <PropertyColumn Property="@(o => o.Date.LocalDateTime)" 
+    <PropertyColumn Property="@(o => o.Date.ToString())" 
         Sortable="true" 
         Align="Align.Start" 
         Tooltip="true"  
@@ -43,10 +43,7 @@
 </div>
 <FluentPaginator State="@pagination" />
 @code {
-    [CascadingParameter]
-    public Task<AuthenticationState> AuthStateTask { get; set; } = default;
-    UserInfo? userInfo;
-
+   
     // Sample recent orders
     private DashboardData DashboardData = new DashboardData();
     private IQueryable<Order>? recentOrders; 
@@ -54,8 +51,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        userInfo = await UserInfoHelper.GetUserInfoAsync(AuthStateTask);
-    
+           
         DashboardData = await DashboardService.GetDashboardDataAsync();
         recentOrders = (DashboardData.RecentOrders).AsQueryable();
         

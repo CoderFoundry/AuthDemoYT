@@ -103,6 +103,10 @@
             return;
         }
 
+        await UserManager.AddToRoleAsync(user, nameof(Role.Admin));
+        await UserManager.AddToRoleAsync(user, nameof(Role.AppUser));
+
+
         if (Input.ProfilePicture != null)
         {
             try
