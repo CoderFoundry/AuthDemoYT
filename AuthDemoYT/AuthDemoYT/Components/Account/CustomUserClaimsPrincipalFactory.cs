@@ -7,8 +7,10 @@ using Microsoft.Extensions.Options;
 
 namespace AuthDemoYT.Components.Account
 {
-    public class CustomUserClaimsPrincipalFactory(UserManager<ApplicationUser> userManager, IOptions<IdentityOptions> options)
-        : UserClaimsPrincipalFactory<ApplicationUser>(userManager, options)
+    public class CustomUserClaimsPrincipalFactory(UserManager<ApplicationUser> userManager,
+                                                  RoleManager<IdentityRole> roleManager,
+                                                  IOptions<IdentityOptions> options)
+        : UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>(userManager, roleManager, options)
     {
         protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
         {

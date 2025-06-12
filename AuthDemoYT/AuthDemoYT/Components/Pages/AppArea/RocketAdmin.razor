@@ -1,0 +1,67 @@
+﻿@page "/rocketadmin"
+@using Microsoft.FluentUI.AspNetCore.Components
+@rendermode InteractiveServer
+@attribute [Authorize(Roles = "Admin")]
+@inject IDashboardService DashboardService
+
+<h2>Order Administration</h2>
+
+<FluentButton Appearance="Appearance.Accent" Class="mb-3" OnClick="AddOrder">
+    + Add Order
+</FluentButton>
+
+<FluentDataGrid TGridItem="Order"
+                Items="@recentOrders"
+                Class="mt-3"
+                Pagination="@pagination"
+                Virtualize="false">
+    <PropertyColumn Property="@(o => o.Id)" Sortable="true" Align="Align.Start" Tooltip="true" />
+    <PropertyColumn Property="@(o => o.CustomerName)" Sortable="true" Align="Align.Start" Tooltip="true" Title="Customer Name" />
+    <PropertyColumn Property="@(o => o.Date.LocalDateTime)"
+                    Sortable="true"
+                    Align="Align.Start"
+                    Tooltip="true"
+                    Title="Sale Date" />
+    <PropertyColumn Property="@(o => o.Total)" Sortable="true" Align="Align.Start" Tooltip="true" />
+    <TemplateColumn Title="Actions" Align="Align.Center" Style="height: 40px">
+        
+            <FluentButton Appearance="Appearance.Accent" OnClick="() => EditOrder(context.Id)" Class="me-2">
+                Edit
+            </FluentButton>
+        <FluentButton BackgroundColor="var(--cf-red-400)" Color="var(--cf-light-color)" OnClick="() => DeleteOrder(context.Id)">
+                Delete
+            </FluentButton>
+        
+    </TemplateColumn>
+</FluentDataGrid>
+
+<FluentPaginator State="@pagination" />
+
+@code {
+    private DashboardData DashboardData = new DashboardData();
+    private IQueryable<Order>? recentOrders;
+    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Load sample or real data
+        DashboardData = await DashboardService.GetDashboardDataAsync();
+        recentOrders = (DashboardData.RecentOrders).AsQueryable();
+
+    }
+
+    private void AddOrder()
+    {
+        // TODO: Show add-order dialog (stub)
+    }
+
+    private void EditOrder(int id)
+    {
+        // TODO: Show edit-order dialog (stub)
+    }
+
+    private void DeleteOrder(int id)
+    {
+        // TODO: Confirm and delete (stub)
+    }
+ }

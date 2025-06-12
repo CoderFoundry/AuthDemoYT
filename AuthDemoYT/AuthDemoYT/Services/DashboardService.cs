@@ -12,8 +12,7 @@ namespace AuthDemoYT.Services
         {
             await using var dbContext = contextFactory.CreateDbContext();
             var orders = await dbContext.Orders
-                .OrderByDescending(o => o.Date)
-                .Take(10)
+                .OrderByDescending(o => o.Date)               
                 .ToListAsync();
 
             // Build dashboard data

@@ -1,5 +1,8 @@
 ﻿@page "/dashboard"
-@using Microsoft.FluentUI
+@using AuthDemoYT.Client.Models
+@using Microsoft.FluentUI.AspNetCore.Components
+@using AuthDemoYT.Client.Helpers
+@rendermode InteractiveServer
 
 @inject IDashboardService DashboardService
 
@@ -20,41 +23,42 @@
         </div>
     </div>
 
-    <h4>Recent Orders</h4>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Order #</th>
-                <th>Customer</th>
-                <th>Date</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var order in DashboardData.RecentOrders)
-            {
-                <tr>
-                    <td>@order.Id</td>
-                    <td>@order.CustomerName</td>
-                    <td>@order.Date.LocalDateTime.ToShortDateString()</td>
-                    <td>@order.Total.ToString("C")</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+ <h4>Recent Orders</h4>
+<FluentDataGrid TGridItem="Order"
+                Items="@recentOrders"
+                Class="mt-3"
+                Pagination="@pagination"
+                Virtualize="false">
+    <PropertyColumn Property="@(o => o.Id)" Sortable="true" Align="Align.Start" Tooltip="true" />
+    <PropertyColumn Property="@(o => o.CustomerName)" Sortable="true" Align="Align.Start" Tooltip="true" Title="Customer Name" />
+    <PropertyColumn Property="@(o => o.Date.LocalDateTime)" 
+        Sortable="true" 
+        Align="Align.Start" 
+        Tooltip="true"  
+        Title="Sale Date"
+        />
+    <PropertyColumn Property="@(o => o.Total)" Sortable="true" Align="Align.Start" Tooltip="true" />
+
+  </FluentDataGrid>
 </div>
-
-
-
+<FluentPaginator State="@pagination" />
 @code {
-
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthStateTask { get; set; } = default;
+    UserInfo? userInfo;
 
     // Sample recent orders
     private DashboardData DashboardData = new DashboardData();
+    private IQueryable<Order>? recentOrders; 
+    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
 
     protected override async Task OnInitializedAsync()
     {
+        userInfo = await UserInfoHelper.GetUserInfoAsync(AuthStateTask);
+    
         DashboardData = await DashboardService.GetDashboardDataAsync();
+        recentOrders = (DashboardData.RecentOrders).AsQueryable();
+        
     }
 
 }
